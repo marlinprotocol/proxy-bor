@@ -1,0 +1,7 @@
+{
+    "methods" : ["eth_callBundle"],
+    "listen_port": 18545,
+    "server_url": "http://13.57.217.176",
+    "server_port": 8545
+    
+}
