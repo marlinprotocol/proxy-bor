@@ -4,7 +4,7 @@ const request = require('request')
 const app = express()
 app.use(express.json())
 
-app.use(function (req, res) {
+app.use('/bor', function (req, res) {
     if (!req.body) {
       res.writeHead(400)
       res.end('invalid json body')
@@ -37,3 +37,14 @@ app.use(function (req, res) {
   app.listen(config.listen_port, () => {
     console.log(`proxy listening at ${config.listen_port} and forwarding to ${config.server_url}:${config.server_port}`)
   })
+
+  app.get('/heimdall/latest-span', function(req, res) {
+    console.log("getting heimdall latest span")
+    request
+      .get(config.heimdalld_rest_server_url + ":" + config.heimdalld_rest_server_port + "/bor/latest-span")
+      .on('error', function (e) {
+        res.writeHead(500)
+        res.end(`error in proxy: ${e}`)
+      })
+      .pipe(res)
+  });
